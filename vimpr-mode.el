@@ -1,4 +1,4 @@
-;;; dactyl-mode.el --- Major mode for editing Pentadactyl config files
+;;; vimpr-mode.el --- Major mode for editing Pentavimpr config files
 
 ;; Copyright (C) 2014 Olli Piepponen
 ;; Copyright (C) 2013 Andrew Pennebaker
@@ -8,7 +8,7 @@
 ;;          Mark Oteiza
 ;;          Andrew Pennebaker
 ;;          Alpha Tan <alphatan.zh@gmail.com>
-;; URL: https://github.com/luxbock/dactyl-mode
+;; URL: https://github.com/luxbock/vimpr-mode
 ;; Version: 0.0.1
 ;; Keywords: languages, vim
 ;; Package-Requires: ()
@@ -38,36 +38,36 @@
 
 (require 'font-lock)
 
-(defgroup dactyl-mode nil
-  "Major mode for editing Pentadactyl config files."
+(defgroup vimpr-mode nil
+  "Major mode for editing Pentavimpr config files."
   :group 'languages)
 
-(defcustom dactyl-mode-hook nil
-  "Normal hook run when entering dactyl-mode."
+(defcustom vimpr-mode-hook nil
+  "Normal hook run when entering vimpr-mode."
   :type 'hook
-  :group 'dactyl-mode)
+  :group 'vimpr-mode)
 
-(defgroup dactyl-faces nil
-  "Faces used for Pentadactyl script."
+(defgroup vimpr-faces nil
+  "Faces used for Pentavimpr script."
   :group 'faces)
 
-(defface dactyl-option
+(defface vimpr-option
   '((default :inherit font-lock-variable-name-face))
-  "Face used for Pentadactyl's configuration options.")
+  "Face used for Pentavimpr's configuration options.")
 
-(defface dactyl-command
+(defface vimpr-command
   '((default :inherit font-lock-keyword-face))
-  "Face used for Pentadactyl Ex commands.")
+  "Face used for Pentavimpr Ex commands.")
 
 
 ;; Font lock linking
-(defvar dactyl-font-lock-keywords
+(defvar vimpr-font-lock-keywords
   `(
     ;; Line comment
     ("^[\t ]*\\(\"\\)\\(.*\\)$"
      (1 font-lock-comment-delimiter-face)
      (2 font-lock-comment-face))
-     
+
     ;; String start:
     ("\\(\"[^\n\r\"]*\"\\)\\|\\('[^\n\r]*'\\)"
      (0 font-lock-string-face)) ;; String end;
@@ -82,8 +82,8 @@
     ("\\(^\\|[ \t]*\\)\\(command \\)\\<\\([A-Za-z0-9-_]+\\)\\>"
      (3 font-lock-variable-name-face))
 
-    ;; Dactyl js-invocations
-    ("\\<\\(dactyl\\)\\>\\(.\\)\\([A-Za-z0-9-_]+\\)?"
+    ;; Vimpr js-invocations
+    ("\\<\\(vimpr\\)\\>\\(.\\)\\([A-Za-z0-9-_]+\\)?"
      1 '(face font-lock-type-face))
 
     ;; EOF
@@ -171,7 +171,7 @@
                              "frameonly" "frameo"
                              "group" "gr"
                              "hardcopy" "ha"
-                             "help" 
+                             "help"
                              "helpall" "helpa"
                              "highlight" "hl"
                              "history" "hs" "hist"
@@ -203,9 +203,9 @@
                              "marks"
                              "messages" "mes"
                              "messclear" "messc"
-                             "mkpentadactylrc" "mkp"
+                             "mkpentavimprrc" "mkp"
                              "mkvimruntime" "mkv"
-                             "mlistkeys" 
+                             "mlistkeys"
                              "mmap"
                              "mnoremap"
                              "munmap"
@@ -229,7 +229,7 @@
                              "pwd"
                              "qmark" "qma"
                              "qmarks"
-                             "quit" 
+                             "quit"
                              "quitall" "qa" "qall"
                              "redraw" "redr"
                              "registers"
@@ -258,16 +258,16 @@
                              "tabattach" "taba"
                              "tabclose" "tabc"
                              "tabdetach" "tabde"
-                             "tabdo" "tabd" 
+                             "tabdo" "tabd"
                              "tabduplicate" "tabdu"
                              "tablast" "tabl" "bl"
                              "tabmove" "tabm"
                              "tabnext" "tabn"
                              "tabonly" "tabo"
-                             "tabopen" 
+                             "tabopen"
                              "tabprevious" "tp" "tabp"
                              "tabrewind" "br" "tabr" "tabfir"
-                             "time" 
+                             "time"
                              "tlistkeys"
                              "tmap"
                              "tnoremap"
@@ -296,7 +296,7 @@
                              "yank"
                              "zoom") 'words)
               "\\([^_]\\|$\\)")
-     2 '(face dactyl-command))
+     2 '(face vimpr-command))
 
 
     ;; Options
@@ -381,14 +381,14 @@
                  "wildsort"
                  "wordseparators"
                  "yankshort") 'words))
-     2 '(face dactyl-option))
+     2 '(face vimpr-option))
 
     ;; Operators start:
     (,(concat "\\("
               ;; word char
               "\\|" "\\(![=~]?[#?]?\\)"
               "\\|" "\\(>[#\\\\?=]?[#?]?\\)"
-              "\\|" "\\(<[#\\\\?=]?[#?]?\\)" 
+              "\\|" "\\(<[#\\\\?=]?[#?]?\\)"
               "\\|" "\\(\\+=?\\)"
               "\\|" "\\(-=?\\)"
               "\\|" "\\(=[=~]?[#?]?\\)"
@@ -402,27 +402,27 @@
               )
      1 font-lock-constant-face) ;; Operators end;
     )
-  "Default expressions to highlight in dactyl-mode.")
+  "Default expressions to highlight in vimpr-mode.")
 
-;; Support for Pentadactyl script
+;; Support for Pentavimpr script
 
-(defvar dactyl-mode-syntax-table
+(defvar vimpr-mode-syntax-table
   (let ((table (make-syntax-table)))
     (modify-syntax-entry ?\" "." table)
     table))
 
-(defalias 'dactyl--parent-mode
+(defalias 'vimpr--parent-mode
   (if (fboundp 'prog-mode) #'prog-mode #'fundamental-mode))
 
 ;;;###autoload
-(define-derived-mode dactyl-mode dactyl--parent-mode "dactyl"
-  "Major mode for editing Pentadactyl configuration files."
-  :group 'dactyl-mode
-  :syntax-table dactyl-mode-syntax-table
-  (set (make-local-variable 'font-lock-defaults) '(dactyl-font-lock-keywords))
+(define-derived-mode vimpr-mode vimpr--parent-mode "vimpr"
+  "Major mode for editing Pentavimpr configuration files."
+  :group 'vimpr-mode
+  :syntax-table vimpr-mode-syntax-table
+  (set (make-local-variable 'font-lock-defaults) '(vimpr-font-lock-keywords))
   (set (make-local-variable 'comment-start) "\"")
   (set (make-local-variable 'comment-end) ""))
 
-(provide 'dactyl-mode)
+(provide 'vimpr-mode)
 
-;;; dactyl-mode.el ends here
+;;; vimpr-mode.el ends here
