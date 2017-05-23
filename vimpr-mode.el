@@ -1,4 +1,4 @@
-;;; vimpr-mode.el --- Major mode for editing Pentavimpr config files
+;;; vimpr-mode.el --- Major mode for editing Vimperator config files
 
 ;; Copyright (C) 2014 Olli Piepponen
 ;; Copyright (C) 2013 Andrew Pennebaker
